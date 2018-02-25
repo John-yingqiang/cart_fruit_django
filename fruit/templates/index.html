@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+        
+        <head>
+                <title>泰国红象</title>
+                <meta charset="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+                <!--[if lte IE 8]>
+                        <script src="assets/js/ie/html5shiv.js"></script>
+                <![endif]-->
+                <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+                <link rel="stylesheet" href="{% static 'css/swiper.min.css' %}" />
+                <link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}" type="image/x-icon"/>  
+                 <script src="{% static 'js/html5media.min.js' %}"></script>
+                <!--[if lte IE 9]>
+                        <link rel="stylesheet" href="assets/css/ie9.css" />
+                <![endif]-->
+                <!--[if lte IE 8]>
+                        <link rel="stylesheet" href="assets/css/ie8.css" />
+                <![endif]-->
+        </head>
+        
+        <body>
+                <!-- Wrapper -->
+                <div id="wrapper">
+                        <!-- Main -->
+                        <div id="main">
+                                <div class="inner">
+                                        <!-- Header -->
+                                        <header id="header">
+                                                <!-- <h2><strong>泰国红象</strong> 源自东南亚水果</h2> -->
+                                                <span class="logo fit">
+                                                        <img src="{% static 'images/inner/header.jpg' %}" alt="" /></span>
+                                                <nav class="links">
+                                                            <ul>
+                                                                    <li>
+                                                                            <a href="{% url 'fruit:index' %}" >首页</a></li>
+                                                                    <li>
+                                                                            <a href="{% url 'fruit:video' %}" target="_blank">果园视频</a></li>
+                                                                    <li>
+                                                                            <a href="{% url 'fruit:aboutus' %}" target="_blank">关于我们</a></li>
+                                                                    <li>
+                                                                            <a href="{% url 'fruit:contact' %}"  target="_blank">联系我们</a></li>
+                                                                            
+                                                                    <li>
+                                                                              <form id="searches" method="post" action=".">
+                                                                                        <input type="text" name="query" placeholder="搜索水果" />
+                                                                                      {% csrf_token %}
+                                                                                      <input type="submit" class="button small" value="搜索">
+                                                                              </form>
+                                                                    </li>
+                                                                    <li><a href="{% url 'cart:cart_detail' %}">我的购物车</a></li>
+                                                            </ul>
+                                                </nav>
+                                                  </header>
+<!--                                                 <nav class="main">
+
+                                                                        <form id="searches" method="post" action=".">
+                                                                                 <div class="row uniform">
+                                                                                    <div class="6u 6u$(xsmall)">
+                                                                                        <input type="text" name="query" placeholder="搜索水果" />
+                                                                                    </div>
+                                                                                {% csrf_token %}
+                                                                                <div class="6u$ 12u$(xsmall)">
+                                                                                    <input type="submit" class="button special icon fa-search" value="搜索">
+                                                                                </div>
+                                                                                </div>
+                                                                        </form>
+
+                                                </nav> -->
+
+                                        <!-- Banner -->
+                                        {% if banners %}
+                                        <section class="pc-banner">
+                                                <div class="swiper-container">
+                                                        <div class="swiper-wrapper">
+                                                                {% for banner in banners %}
+                                                                    {% if forloop.first %}
+                                                                        <div class="swiper-slide swiper-slide-center none-effect">
+                                                                                <a href="{% url 'fruit:activity' id=banner.id %}" target="_blank">
+                                                                                        <img src="{{ banner.image.url }}" />
+                                                                                </a>
+                                                                        </div>
+                                                                    {% else %}
+                                                                        <div class="swiper-slide">
+                                                                                <a href="{% url 'fruit:activity' id=banner.id %}" target="_blank">
+                                                                                        <img src="{{ banner.image.url }}" />
+                                                                                </a>
+                                                                        </div>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                        </div>
+                                                </div>
+                                                <div class="swiper-pagination"></div>
+                                                <div class="banner_button"></div>
+                                                <!-- <div class="swiper-button-prev"></div>
+                                                <div class="swiper-button-next"></div></div> -->
+                                        </section>
+                                        {% endif %}
+                                        <!-- Section -->
+                                        <section>
+                                                {% for kind, fruits in all_fruit.items %}
+                                                        <div class="major">
+                                                                <h2>{{ kind }}</h2>
+                                                                <a href="{% url 'fruit:more' tags=kind%}" class="button small right" target="_blank">更多</a>
+                                                        </div>
+
+                                                <div class="features">
+                                                        {% for fruit in fruits %}
+                                                        <article>
+                                                                <div class="6u$ 12u$(big)">
+                                                                        <a href="{% url 'fruit:detail' id=fruit.id %}" target="_blank">
+                                                                        <img class="image" src="{{ fruit.image_icon.url }}" alt="" /></a>
+                                                                </div>
+                                                                <div class="6u$ 12u$(small)">
+                                                                        <h3>{{ fruit.title }}</h3>
+                                                                        <p>{{ fruit.content }}</p>
+                                                                        <p>{{ fruit.price }}</p>
+                                                                        <form action="{% url 'cart:cart_add' product_id=fruit.id %}" method="post">
+                                                                        {{ form }}
+                                                                        {% csrf_token %}
+                                                                        <input type="submit" value="加入购物车">
+                                                                        </form>
+                                                                </div>
+                                                        </article>
+                                                        {% endfor %}
+                                                </div>
+                                                {% endfor %}
+                                        </section>
+
+                                </div>
+                                <div id="footer">
+                                    <img class="image main" src="{% static 'images/inner/footer.jpg' %}">
+                                </div>
+                        </div>
+
+                        <!-- Scripts -->
+                        <script src="{% static 'js/jquery.min.js' %}"></script>
+                        <script src="{% static 'js/skel.min.js' %}"></script>
+                        <script src="{% static 'js/util.js' %}"></script>
+                        <!--[if lte IE 8]>
+                                <script src="assets/js/ie/respond.min.js"></script>
+                        <![endif]-->
+                        <script src="{% static 'js/main.js' %}"></script>
+                        <script src="{% static 'js/swiper.min.js' %}"></script>
+                    
+                        <!-- Initialize Swiper -->
+                        <script>window.onload = function() {
+                                        var swiper = new Swiper('.swiper-container', {
+                                                autoplay: 3000,
+                                                speed: 1000,
+                                                autoplayDisableOnInteraction: false,
+                                                loop: true,
+                                                centeredSlides: true,
+                                                slidesPerView: 2,
+                                                pagination: '.swiper-pagination',
+                                                paginationClickable: true,
+                                                prevButton: '.swiper-button-prev',
+                                                nextButton: '.swiper-button-next',
+                                                onInit: function(swiper) {
+                                                        swiper.slides[2].className = "swiper-slide swiper-slide-active"; //第一次打开不要动画
+                                                },
+                                                breakpoints: {
+                                                        668 : {
+                                                                slidesPerView: 1,
+                                                        }
+                                                }
+                                        });
+                                }</script>
+                </div>
+        </body>
+
+</html>

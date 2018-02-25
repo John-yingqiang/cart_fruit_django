@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+        
+        <head>
+                <title>泰国红象</title>
+                <meta charset="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+                <!--[if lte IE 8]>
+                        <script src="assets/js/ie/html5shiv.js"></script>
+                <![endif]-->
+                <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+                <link rel="stylesheet" href="{% static 'css/swiper.min.css' %}" />
+                <link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}" type="image/x-icon"/>  
+                <!--[if lte IE 9]>
+                        <link rel="stylesheet" href="assets/css/ie9.css" />
+                <![endif]-->
+                <!--[if lte IE 8]>
+                        <link rel="stylesheet" href="assets/css/ie8.css" />
+                <![endif]--></head>
+        
+        <body>
+                <!-- Wrapper -->
+                <div id="wrapper">
+                        <!-- Main -->
+                        <div id="main">
+                                <div class="inner">
+                                        <!-- Header -->
+                                        <header id="header">
+                                                <!-- <h2><strong>泰国红象</strong> 源自东南亚水果</h2> -->
+                                                <span class="logo fit">
+                                                        <img src="{% static 'images/inner/header.jpg' %}" alt="" /></span>
+                                                <div></div>
+                                                <nav class="links">
+                                                            <ul>
+                                                                    <li>
+                                                                            <a href="{% url 'fruit:index' %}" >首页</a></li>
+                                                                    <li>
+                                                                            <a href="{% url 'fruit:video' %}" target="_blank">果园视频</a></li>
+                                                                    <li>
+                                                                            <a href="{% url 'fruit:aboutus' %}" target="_blank">关于我们</a></li>
+                                                                    <li>
+                                                                            <a href="{% url 'fruit:contact' %}"  target="_blank">联系我们</a></li>
+                                                                    <li>
+                                                                              <form id="searches" method="post" action=".">
+  
+                                                                                        <input type="text" name="query" placeholder="搜索水果" />
+
+                                                                                {% csrf_token %}
+
+                                                                                    <input type="submit" class="button small" value="搜索">
+
+
+                                                                              </form>
+                                                                    </li>
+                                                            </ul>
+                                                </nav>
+                                                  </header>
+                                        <!-- Section -->
+                                        <section>
+                                                      <header class="main">
+                                                             <h2>搜索结果:</h2>
+                                                      </header>
+                                                <div class="features">
+                                                        {% for fruit in fruits %}
+                                                        <article>
+                                                                <div class="6u$ 12u$(big)">
+                                                                        <img class="image" src="{{ fruit.image_icon.url_273x150 }}" alt="" />
+                                                                </div>
+                                                                <div class="6u$ 12u$(small)">
+                                                                        <h3>{{ fruit.title }}</h3>
+                                                                        <p>{{ fruit.content }}</p>
+                                                                        <a href="{% url 'fruit:detail' id=fruit.id %}" class="button" target="_blank">详情</a>
+                                                                </div>
+                                                        </article>
+                                                        {% endfor %}
+                                                </div>
+                                        </section>
+
+                                </div>
+                                <div id="footer">
+                                    <img class="image main" src="{% static 'images/inner/footer.jpg' %}">
+                                </div>
+                        </div>
+
+                        <!-- Scripts -->
+                </div>
+        </body>
+
+</html>

@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>最新活动</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="{% static 'css/discount_main.css' %}" />
+		<link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}" type="image/x-icon"/>  
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+		<!-- Wrapper -->
+			<div id="wrapper">
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<!-- Header -->
+				                                        <header id="header">
+				                                                <!-- <h2><strong>泰国红象</strong> 源自东南亚水果</h2> -->
+				                                                <span class="logo fit">
+				                                                        <img src="{% static 'images/inner/header.jpg' %}" alt="" /></span>
+				                                               <nav class="links">
+				                                                            <ul>
+				                                                                    <li>
+				                                                                            <a href="{% url 'fruit:index' %}" >首页</a></li>
+				                                                                    <li>
+				                                                                            <a href="{% url 'fruit:video' %}" target="_blank">果园视频</a></li>
+				                                                                    <li>
+				                                                                            <a href="{% url 'fruit:aboutus' %}" target="_blank">关于我们</a></li>
+				                                                                    <li>
+				                                                                            <a href="{% url 'fruit:contact' %}"  target="_blank">联系我们</a></li>
+				                                                                    <li>
+				                                                                              <form id="searches" method="post" action=".">
+				  
+				                                                                                        <input type="text" name="query" placeholder="搜索水果" />
+
+				                                                                                {% csrf_token %}
+
+				                                                                                    <input type="submit" class="button small" value="搜索">
+
+
+				                                                                              </form>
+				                                                                    </li>
+				                                                            </ul>
+				                                                </nav>
+				                                                  </header>
+							<!-- Content -->
+								<section>
+									<span class="image main">
+										<img src="{{ activity.image.url }}" alt="" />
+									</span>
+								</section>
+								<section class="wrapper style1 align-center">
+								<!-- Gallery -->
+									<header class="main" style="text-align: center;">
+										<h2>{{ activity.category }}</h2>
+									</header>
+									<div class="gallery style2 medium lightbox onscroll-fade-in">
+										{% for fruit in fruits %}
+										<article>
+											<a href="{% url 'fruit:detail' id=fruit.id %}" class="image">
+												<img src="{{ fruit.image_icon.url }}" alt="" />
+											</a>
+											<div class="caption">
+												<h3>{{ fruit.title }}</h3>
+												<p>{{ fruit.content }}</p>
+												<ul class="actions">
+													<li><span class="button small">详情</span></li>
+												</ul>
+											</div>
+										</article>
+										{% endfor %}
+									</div>
+							</section>
+
+								
+						</div>
+					</div>
+
+			</div>
+			<div id="footer">
+	                                    <img class="image main" src="{% static 'images/inner/footer.jpg' %}">
+	                          </div>
+			<script src="{% static 'js/jquery.min.js' %}"></script>
+			<script src="{% static 'js/discount_jquery.scrollex.min.js' %}"></script>
+			<script src="{% static 'js/discount_jquery.scrolly.min.js' %}"></script>
+			<script src="{% static 'js/discount_skel.min.js' %}"></script>
+			<script src="{% static 'js/discount_util.js' %}"></script>
+			<script src="{% static 'js/discount_main.js' %}"></script>
+	</body>
+</html>
