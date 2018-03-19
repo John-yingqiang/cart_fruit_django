@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+    Editorial by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    <title>购物车</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}" type="image/x-icon"/>  
+    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+</head>
+<body>
+    <!-- Wrapper -->
+    <div id="wrapper">
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
+                <!-- Header -->
+                <header id="header">
+                    <!-- <h2><strong>泰国红象</strong> 源自东南亚水果</h2> -->
+                    <span class="logo fit">
+                        <img src="{% static 'images/inner/header.jpg' %}" alt="" /></span>
+                        <div></div>
+                        <nav class="links">
+                            <ul>
+                                <li>
+                                    <a href="{% url 'fruit:index' %}" >首页</a></li>
+                                    <li>
+                                        <a href="{% url 'fruit:video' %}" target="_blank">果园视频</a></li>
+                                        <li>
+                                            <a href="{% url 'fruit:aboutus' %}" target="_blank">关于我们</a></li>
+                                            <li>
+                                                <a href="{% url 'fruit:contact' %}"  target="_blank">联系我们</a></li>
+                                            <li>
+                                                <a href="{% url 'orders:order_create' %}"  target="_blank">清算</a></li>
+                                            </ul>
+                                        </nav>
+                                    </header>
+                                    <!-- Content -->
+                                    {% for fruit in cart %}
+                                    {% with product=fruit.product %}
+                                    <section>
+                                        <tr>
+                                        <td class="image left">
+                                            <img src="{{ product.image_icon.url }}" alt="" />
+                                        </td>
+                                            <td> {{ fruit.price }} </td>
+                                            <td>
+                                                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                                    {{ fruit.update_quantity_form.quantity }}
+                                                    {{ fruit.update_quantity_form.update }}
+                                                    <input type="submit" value="更新">
+                                                    {% csrf_token %}                                                    
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </section>
+                                    {% endwith %}
+                                    {% empty %}
+                                    <p>购物车空空如也</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </body>
+                    </html>

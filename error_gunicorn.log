@@ -1,0 +1,22 @@
+[2017-11-03 14:18:54 +0000] [8255] [INFO] Starting gunicorn 19.7.1
+[2017-11-03 14:18:54 +0000] [8255] [INFO] Listening at: http://0.0.0.0:8000 (8255)
+[2017-11-03 14:18:54 +0000] [8255] [INFO] Using worker: gevent
+[2017-11-03 14:18:54 +0000] [8260] [INFO] Booting worker with pid: 8260
+[2017-11-03 14:18:54 +0000] [8263] [INFO] Booting worker with pid: 8263
+[2017-11-03 14:18:54 +0000] [8264] [INFO] Booting worker with pid: 8264
+[2017-11-03 14:21:35 +0000] [8255] [INFO] Handling signal: int
+[2017-11-03 14:21:35 +0000] [8264] [INFO] Worker exiting (pid: 8264)
+[2017-11-03 14:21:35 +0000] [8263] [INFO] Worker exiting (pid: 8263)
+[2017-11-03 14:21:35 +0000] [8260] [INFO] Worker exiting (pid: 8260)
+[2017-11-03 14:21:35 +0000] [8255] [INFO] Shutting down: Master
+[2017-11-03 14:25:10 +0000] [8324] [INFO] Starting gunicorn 19.7.1
+[2017-11-03 14:25:10 +0000] [8324] [INFO] Listening at: http://0.0.0.0:8000 (8324)
+[2017-11-03 14:25:10 +0000] [8324] [INFO] Using worker: gevent
+[2017-11-03 14:25:10 +0000] [8329] [INFO] Booting worker with pid: 8329
+[2017-11-03 14:25:10 +0000] [8332] [INFO] Booting worker with pid: 8332
+[2017-11-03 14:25:10 +0000] [8333] [INFO] Booting worker with pid: 8333
+[2017-11-03 14:26:26 +0000] [8324] [INFO] Handling signal: int
+[2017-11-03 14:26:26 +0000] [8332] [INFO] Worker exiting (pid: 8332)
+[2017-11-03 14:26:26 +0000] [8333] [INFO] Worker exiting (pid: 8333)
+[2017-11-03 14:26:26 +0000] [8329] [INFO] Worker exiting (pid: 8329)
+[2017-11-03 14:26:26 +0000] [8324] [INFO] Shutting down: Master

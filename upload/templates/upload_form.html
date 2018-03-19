@@ -1,0 +1,164 @@
+{% load static %}
+<html>
+<head>
+<title>uploader</title>
+<script type="text/javascript" src="{% static 'js/prototype.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ProgressBarHandler.js' %}"></script>
+<script type="text/javascript">
+ 
+var n = 5; // number of files
+var files = [];
+var used = [];
+var used_text = '';
+var submit = [];
+var uuid = gen_uuid();
+var timer;
+var uploading = '';
+var stopped = false;
+ 
+for(var i = 0; i < n; i++) {
+ 
+  files.push('file' + i);
+ 
+}
+ 
+window.onload = function() {
+ 
+  Event.observe($('upload_btn'), 'click', start_upload, false);
+  Event.observe($('id_description'), 'keypress', function(e){
+if(e.keyCode==Event.KEY_RETURN){
+Event.stop(e);
+}
+}, false);
+  for(var i = 0; i< files.length; i++) {
+ 
+    $(files[i] + '_form').action = '/uploader/upload/?X-Progress-ID=' + uuid;
+   
+}
+ 
+}
+ 
+function start_upload() {
+ 
+  $('upload_btn').disabled = true;
+  for(var i = 0; i < files.length; i++) {
+ 
+    if('' != $('id_' + files[i]).value) {
+ 
+      used.push(files[i]);
+      submit.push(files[i]);
+      $(files[i] + '_progress').style.visibility = 'visible';
+      $(files[i] + '_name').innerHTML = $('id_' + files[i]).value;
+     
+}
+   
+}
+  if(submit.length > 0) {
+ 
+    used_text = encodeURIComponent(Object.toJSON(used));
+    $('finish_upload').action = '/uploader/finish_upload/?X-Progress-ID=' + uuid + '&list=' + used_text;
+    uploading = submit.shift();
+    $(uploading + '_form').submit();
+   
+}
+  timer = new PeriodicalExecuter(update_bar, 1);
+ 
+}
+ 
+function gen_uuid() {
+ 
+  var uuid = ""
+  for (var i=0; i < 32; i++) {
+ 
+    uuid += Math.floor(Math.random() * 16).toString(16); 
+   
+}
+  return uuid
+ 
+}
+ 
+function update_bar() {
+ 
+  var r = new Ajax.Request(
+    '/uploader/upload_progress/', 
+    {
+ 
+      method: 'get',
+      parameters: 'X-Progress-ID=' + uuid + '&list=' + used_text,
+      onComplete: update_bar_1
+     
+}
+  );
+ 
+}
+ 
+function update_bar_1(request) {
+ 
+  var stop = true;
+  var list;
+  eval('list = ' + request.responseText);
+  if(100 == list[uploading] && submit.length > 0) {
+ 
+    uploading = submit.shift();
+    $(uploading + '_form').submit();
+   
+}
+  if(!stopped) {
+ 
+    for(var i = 0; i < used.length; i++) {
+ 
+      var r = list[used[i]];
+      myJsProgressBarHandler.setPercentage(used[i] + '_bar', r);
+      if(r < 100) {
+ 
+        stop = false;
+       
+}
+     
+}
+   
+}
+  if(stop) {
+ 
+    stopped = true;
+    timer.stop();
+    for(var i = 0; i < used.length; i++) {
+ 
+      $('id_' + used[i]).value = '';
+     
+}
+    $('finish_upload').submit()
+   
+}
+ 
+}
+ 
+</script>
+</head>
+<body>
+<form id="finish_upload" method="post" target="file_receiver">
+    <table>
+        {{ form }}
+    </table>
+</form>
+<script type="text/javascript">
+for(var i = 0; i < files.length; i++) {
+ 
+  document.write('<form id="' + files[i] + '_form" method="post" enctype="multipart/form-data" target="file_receiver">');
+  document.write('<input id ="id_' + files[i] + '" type="file" name="' + files[i] + '" /></form>');
+ 
+}
+</script>
+<input id="upload_btn" type="button" value="upload" />
+<table>
+<script type="text/javascript">
+for(var i = 0; i < files.length; i++) {
+ 
+  document.write('<tr id="' + files[i] + '_progress" style="visibility:hidden"><td><span id="' + files[i] + '_name"></span>:</td><td>&nbsp;<span class="progressBar" id="' + files[i] + '_bar">0</span></td></tr>');
+ 
+}
+</script>
+</table>
+<iframe name="file_receiver" width="500" height="50" />
+</body>
+</html>

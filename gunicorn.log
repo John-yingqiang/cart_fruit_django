@@ -1,0 +1,11 @@
+[2017-11-03 14:22:04 +0000] [8287] [INFO] Starting gunicorn 19.7.1
+[2017-11-03 14:22:04 +0000] [8287] [INFO] Listening at: http://0.0.0.0:8000 (8287)
+[2017-11-03 14:22:04 +0000] [8287] [INFO] Using worker: gevent
+[2017-11-03 14:22:04 +0000] [8292] [INFO] Booting worker with pid: 8292
+[2017-11-03 14:22:04 +0000] [8295] [INFO] Booting worker with pid: 8295
+[2017-11-03 14:22:04 +0000] [8296] [INFO] Booting worker with pid: 8296
+[2017-11-03 14:23:02 +0000] [8287] [INFO] Handling signal: int
+[2017-11-03 14:23:02 +0000] [8296] [INFO] Worker exiting (pid: 8296)
+[2017-11-03 14:23:02 +0000] [8295] [INFO] Worker exiting (pid: 8295)
+[2017-11-03 14:23:02 +0000] [8292] [INFO] Worker exiting (pid: 8292)
+[2017-11-03 14:23:02 +0000] [8287] [INFO] Shutting down: Master
