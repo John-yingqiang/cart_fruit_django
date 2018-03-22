@@ -17,6 +17,7 @@ from django.conf.urls import url
 from . import view_api as views
 
 urlpatterns = [
-    url(r'^detail/(?P<id>[0-9]+)/$', views.fruit_detail, name='detail'),
-    url(r'^list/$', views.fruit_list, name='fruit_list'),
+    url(r'^detail/(?P<id>[0-9]+)/$', views.FruitDetail.as_view(), name='detail'),
+    url(r'^list/$', views.FruitList.as_view(), name='fruit_list'),
+    url(r'^activity/list/$', views.ActivityList.as_view(), name='activity_list'),
 ]

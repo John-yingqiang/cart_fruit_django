@@ -9,6 +9,7 @@ import sys;
 reload(sys);
 sys.setdefaultencoding("utf8")
 
+
 # Create your models here.
 class Video(models.Model):
 	title = models.CharField(max_length=100, verbose_name=u"视频标题")
@@ -36,13 +37,16 @@ class Activity(models.Model):
 		verbose_name = u"首页最新活动图片,为了美观，图片大小不要相差太多"
 		verbose_name_plural = u"首页最新活动图片,为了美观，图片大小不要相差太多"
 
+        @property
+        def full_image(self):
+            return "http://118.31.43.180" + self.image.url
 
 class Fruit(models.Model):
 	title = models.CharField(max_length=255, verbose_name=u"标题")
 	kinds = TaggableManager(verbose_name=u"水果分类")
 	slug = models.ForeignKey(Activity, null=True, blank=True, related_name="fruits_in_activity", verbose_name=u"参加的活动类型")
 	image_icon = ImageWithThumbsField(u"首页图片(273x150)", upload_to="static/images/app", sizes=((273,150),))
-	image_content1 = ImageWithThumbsField(upload_to="static/images/app", blank=True, verbose_name=u"详细图片(可空)")
+	image_content1 = ImageWithThumbsField(upload_to="static/images/app", blank=True, help_text=u"详细图片(可空)")
 	image_content2 = ImageWithThumbsField(upload_to="static/images/app", blank=True, verbose_name=u"详细图片(可空)")
 	image_content3 = ImageWithThumbsField(upload_to="static/images/app", blank=True, verbose_name=u"详细图片(可空)")
 	datetime = models.DateTimeField(auto_now=True, verbose_name=u"添加日期")
@@ -54,15 +58,24 @@ class Fruit(models.Model):
  		return u"{}".format(self.title)
 
 	class Meta:
-	    verbose_name = u"水果"
+            ordering = ['title']
+            verbose_name = u"水果"
             verbose_name_plural = u"水果"
+        
+        @property
+        def full_image_content1(self):
+            if hasattr(self.image_content1, 'url'):
+                return "http://118.31.43.180" + self.image_content1.url
+            return ""
+
+        @property
+        def full_image_icon(self):
+            return "http://118.31.43.180" + self.image_icon.url
 
         @property
         def tag_name(self):
             return self.kinds.values()[0]["name"]
 
-        def get_absolute_url(self):
-            return r
 
 class Document(models.Model):
 	class Meta:

@@ -26,7 +26,7 @@ SECRET_KEY = 'q#+5q3hhm5#c+ogm=!v=@!s)5kl!^7k)f+dnk9g3nvph#hbr_6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'www.thaifruit1975.com']
 
 
 # Application definition
