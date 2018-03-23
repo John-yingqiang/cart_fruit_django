@@ -1,19 +1,29 @@
+# -*- coding: utf-8 -*-
 from serializer import FruitSerializer, ActivitySerializer
-from rest_framework import generics, mixins, views
+from rest_framework.views import APIView
 from rest_framework.pagination import LimitOffsetPagination
 from models import Fruit, Activity
 from rest_framework import status
 from rest_framework.response import Response
+from common.return_format import JsonResponse
 
-class FruitList(generics.ListCreateAPIView, mixins.CreateModelMixin):
+
+class FruitList(APIView):
+    
+    def get(self, request, format=None):
+        
+        fruits = Fruit.objects.all()
+        serializer = FruitSerializer(fruits, many=True)
+        return JsonResponse(serializer.data, code=200, desc=u'水果列表')        
+   
+    def post(self, request, format=None):
+        serializer = FruitSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+
+class FruitDetail(APIView):
     queryset= Fruit.objects.all()
     serializer_class = FruitSerializer
-    pagination_class = LimitOffsetPagination
-
-class FruitDetail(views.APIView):
-    queryset= Fruit.objects.all()
-    serializer_class = FruitSerializer
-    pagination_class = LimitOffsetPagination
 
     def get_object(self, id):
         try:
@@ -26,7 +36,6 @@ class FruitDetail(views.APIView):
         serializer = FruitSerializer(fruit)
         return Response(serializer.data)
 
-class ActivityList(generics.ListCreateAPIView):
+class ActivityList(APIView):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
-    pagination_class = LimitOffsetPagination
