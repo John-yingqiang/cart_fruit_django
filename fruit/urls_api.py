@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^detail/(?P<id>[0-9]+)/$', views.FruitDetail.as_view(), name='detail'),
     url(r'^list/$', views.FruitList.as_view(), name='fruit_list'),
     url(r'^activity/list/$', views.ActivityList.as_view(), name='activity_list'),
+    url(r'^activity/detail/(?P<id>[0-9]+)/$', views.ActivityDetail.as_view(), name='activity_detail'),
 ]
