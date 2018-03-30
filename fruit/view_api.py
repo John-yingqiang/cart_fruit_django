@@ -56,7 +56,7 @@ class ActivityList(APIView):
     def get(self, request, format=None):
         activitys = Activity.objects.all()
         serializer = ActivitySerializer(activitys, many=True)
-        return JsonResponse(serializer.data, code=200, desc=u'水果列表')        
+        return JsonResponse(serializer.data, code=200, desc=u'活动列表')        
    
     def post(self, request, format=None):
         serializer = FruitDeSerializer(data=request.data)

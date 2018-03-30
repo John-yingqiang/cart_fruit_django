@@ -53,6 +53,7 @@ class Fruit(models.Model):
 	content = models.TextField(verbose_name=u"简介(对标题的简述)")
 	detail = models.TextField(verbose_name=u"产品详情", blank=True)
 	price = models.DecimalField(max_digits=10, decimal_places=2, default=10)
+        count = models.IntegerField(default=100, verbose_name=u'库存')
 
 	def __unicode__(self):
  		return u"{}".format(self.title)
@@ -74,7 +75,10 @@ class Fruit(models.Model):
 
         @property
         def tag_name(self):
-            return self.kinds.values()[0]["name"]
+            try:
+                return self.kinds.values()[0]["name"]
+            except Exception:
+                return ""
 
 
 class Document(models.Model):

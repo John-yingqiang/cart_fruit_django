@@ -47,6 +47,20 @@ class Cart(object):
 			item['total_price'] = item['price'] * item['quantity']
 			yield item
 
+        def serializer(self):
+
+            serializer_data = []
+
+            for id, item in self.cart.items():
+                fruit = Fruit.objects.get(id=id)
+                item['id'] = id
+                item['title'] = fruit.title
+                item['price'] = Decimal(item['price'])
+                item['total_price'] = item['price'] * item['quantity']
+                serializer_data.append(item)
+                
+            return serializer_data
+                
 	def __len__(self):
 		return sum(item['quantity'] for item in self.cart.values())
 
@@ -56,18 +70,4 @@ class Cart(object):
 	def clear(self):
 		del self.session[settings.CART_SESSION_ID]
 		self.session.modified = True
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
