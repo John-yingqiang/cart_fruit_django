@@ -10,9 +10,9 @@ class OrderItemInline(admin.TabularInline):
 
 class OrderAdmin(admin.ModelAdmin):
 	list_display = ['id', 'name', 'email',
-					'address', 'postal_code', 'city', 'paid',
+					'address', 'postal_code', 'city',
 					'created', 'updated']
-	list_filter = ['paid', 'created', 'updated']
+	list_filter = ['created', 'updated']
 	inlines = [OrderItemInline]
 
 	def __unicode__(self):

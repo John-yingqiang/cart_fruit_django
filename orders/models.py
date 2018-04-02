@@ -12,9 +12,10 @@ class Order(models.Model):
     city = models.CharField(max_length=100, verbose_name=u'城市') 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    paid = models.BooleanField(default=False, verbose_name=u'已完成支付')# 使用这个字段来区分支付和未支付订单
     order_num = models.CharField(max_length=20, verbose_name=u'订单编号')
     status = models.CharField(default='created', max_length=10)
+    price = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    drawback = models.DecimalField(default=0, max_digits=10, decimal_places=2)
 
     class Meta:
     	ordering = ('-created',)
