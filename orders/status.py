@@ -15,13 +15,20 @@ class Status(object):
             return False
 
     @classmethod
-    def check_canceled(self, order, status):
-        if status == CREATED_NOT_PAID:
+    def check_canceled(self, order):
+        if order.status == CREATED_NOT_PAID:
             order.status = CANCELED
             order.save()
             return True
-        elif status == CONFIRMED:
+        elif order.status == CONFIRMED:
             return False
-        elif status == PAID_NOT_DILIVERY:
-            order.status =9 
+        elif order.status == PAID_NOT_DILIVERY:
+            order.drawback = order.paid
+            order.status = CANCELED
+            order.save()
+        elif order.status == DELIVERY_NOT_CONFIRMED:
+            pass
+        else:
+            pass
+            
 

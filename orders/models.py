@@ -13,9 +13,9 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     order_num = models.CharField(max_length=20, verbose_name=u'订单编号')
-    status = models.CharField(default='created', max_length=10)
-    price = models.DecimalField(default=0, max_digits=10, decimal_places=2)
-    drawback = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    status = models.CharField(default='created', max_length=10, verbose_name=u'订单状态')
+    price = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name=u'总价')
+    drawback = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name=u'退款')
 
     class Meta:
     	ordering = ('-created',)

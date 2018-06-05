@@ -1,5 +1,6 @@
 # coding=utf-8
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from common.return_format import JsonResponse
@@ -86,4 +87,35 @@ class OrderDetail(APIView):
         return JsonResponse(serializer.errors, code=404, desc=u'数据验证错误')
 
                         
+@api_view(['POST'])
+def paid_for_order(request):
+    if request.data.get('order_num', None):
+        order_num = request.get('order_num')
+        order = Order.objects.get(order_num=order_num)
+        order.paid=True
+        products = order.order_items.all()
+        for fruit in products:
+            fruit.product.count -= fruit.quantity
         
+        
+        return JsonResponse(data='', code=200, desc='订单付款成功')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
