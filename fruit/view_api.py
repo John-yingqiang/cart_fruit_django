@@ -12,6 +12,8 @@ class FruitList(APIView):
     
     def get(self, request, format=None):
         fruits = Fruit.objects.all()
+        query_param = request.query_params
+        print "query_params:{}".format(query_param)
         serializer = FruitSerializer(fruits, many=True)
         return JsonResponse(serializer.data, code=200, desc=u'水果列表')        
    
