@@ -93,4 +93,5 @@ class FruitSerializer(serializers.ModelSerializer):
                 price=validated_data.price,
                 detail=validated_data.detail)
 
-
+class FruitListSerializer(serializers.ModelSerializer):
+    kinds
