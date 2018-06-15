@@ -19,11 +19,11 @@ class JsonResponse(Response):
             raise AssertionError(msg)
         
         if isinstance(data, list):            
-            self.data = {'code':code, 'desc':desc, 'data':{'count':len(data), 'detail':data}}
+            self.data = OrderedDict({'code':code, 'desc':desc, 'data':{'count':len(data), 'detail':data}})
         elif not data:
-            self.data = {'code':code, 'desc':desc, 'data':{'count':0, 'detail':data}}
+            self.data = OrderedDict({'code':code, 'desc':desc, 'data':{'count':0, 'detail':data}})
         else:
-            self.data = {'code':code, 'desc':desc, 'data':{'count':1, 'detail':data}}
+            self.data = OrderedDict({'code':code, 'desc':desc, 'data':{'count':1, 'detail':data}})
             
         self.template_name = template_name
         self.exception = exception

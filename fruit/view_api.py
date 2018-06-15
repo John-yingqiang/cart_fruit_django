@@ -1,19 +1,42 @@
 # -*- coding: utf-8 -*-
-from serializer import FruitDeSerializer, FruitSerializer, ActivitySerializer
+from serializer import FruitDeSerializer, FruitSerializer, ActivitySerializer, TagSerializer
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.pagination import LimitOffsetPagination
 from models import Fruit, Activity
+from taggit.models import Tag
 from rest_framework import status
 from rest_framework.response import Response
 from common.return_format import JsonResponse
+from urllib import unquote
+
+@api_view()
+def tag_list(request):
+    tags = Tag.objects.all()
+    serializer = TagSerializer(tags, many=True)
+    return JsonResponse(serializer.data, code=200, desc=u'标签列表')
 
 
 class FruitList(APIView):
     
     def get(self, request, format=None):
-        fruits = Fruit.objects.all()
         query_param = request.query_params
-        print "query_params:{}".format(query_param)
+        
+        for key, value in query_param.items():
+            print "key:{}, value:{}".format(key, unquote(value).decode('utf-8'))
+
+        try:
+            if not query_param:
+                fruits = Fruit.objects.all()
+
+            elif "order_by" in query_param:
+                fruits = Fruit.objects.order_by(query_param.get('order_by'))
+
+            else:
+                fruits = Fruit.objects.filter(**query_param.dict())
+        except Exception as e:
+            print e
+
         serializer = FruitSerializer(fruits, many=True)
         return JsonResponse(serializer.data, code=200, desc=u'水果列表')        
    
@@ -23,6 +46,7 @@ class FruitList(APIView):
             serializer.save()
         else:
             return JsonResponse(serializer.errors, code=403, desc=u'错误信息')
+
 
 class FruitDetail(APIView):
     queryset= Fruit.objects.all()

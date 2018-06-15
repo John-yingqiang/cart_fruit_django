@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from models import Fruit, Activity
 from taggit.managers import TaggableManager
+from taggit.models import Tag
 
 class ActivitySerializer(serializers.ModelSerializer):
     image_position = serializers.CharField(source='full_image', required=False, read_only=True)
@@ -24,12 +25,12 @@ class ActivitySerializer(serializers.ModelSerializer):
         return instance
 
 class FruitDeSerializer(serializers.ModelSerializer):
-    kinds_ = serializers.CharField(required=False, write_only=True)
+    kinds = serializers.CharField(required=False, write_only=True)
     slug = serializers.IntegerField(required=False, write_only=True)
 
     class Meta:
         model = Fruit
-        fields = ('kinds_','slug','title','content','price','detail')
+        fields = ('kinds','slug','title','content','price','detail')
     
     def validate_slug(self, value):
         try:
@@ -67,14 +68,14 @@ class FruitDeSerializer(serializers.ModelSerializer):
         return instance
 
 class FruitSerializer(serializers.ModelSerializer):
-    kinds_ = serializers.CharField(source="tag_name")
+    kinds = serializers.CharField(source="tag_name")
     image_position = serializers.CharField(source='full_image_icon')
     image_content = serializers.CharField(source='full_image_content1')
     slug = ActivitySerializer(required=False)
 
     class Meta:
         model = Fruit
-        fields = ('id', 'title', 'kinds_', 'slug', 'image_position', 'content', 'price', 'image_content', 'detail')
+        fields = ('id', 'title', 'kinds', 'slug', 'image_position', 'content', 'price', 'image_content', 'detail')
 
     def validated_image_position(self, value):
         from os.path import exists
@@ -93,5 +94,7 @@ class FruitSerializer(serializers.ModelSerializer):
                 price=validated_data.price,
                 detail=validated_data.detail)
 
-class FruitListSerializer(serializers.ModelSerializer):
-    kinds
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
